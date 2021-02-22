@@ -10,6 +10,15 @@ class Shared():
         self.mutex = Mutex()
 
 
+class Histogram(dict):
+    """
+        Pouzity program z cvicenia PPaDS
+    """
+    def __init__(self, seq=[]):
+        for item in seq:
+            self[item] = self.get(item, 0) + 1
+
+
 def counter_first_mutex(shared):
     while True:
         if shared.counter >= shared.end:
