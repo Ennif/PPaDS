@@ -1,4 +1,5 @@
 import fei.ppds as fp
+from fei.ppds import Mutex
 
 
 class Shared():
@@ -6,8 +7,26 @@ class Shared():
         self.counter = 0
         self.end = end
         self.array = [0] * self.end
+        self.mutex = Mutex()
 
 
-for _ in range(5):
-    shared_object = Shared(1000)
+def counter_first_mutex(shared):
+    while True:
+        if shared.counter >= shared.end:
+            break
+        shared.mutex.lock()
+        shared.counter += 1
+        shared.mutex.unlock()
+        shared.array[shared.counter] += 1
+
+
+for _ in range(10):
+    shared_object = Shared(10000)
+
+    first_thread = fp.Thread(counter_first_mutex, shared_object)
+    second_thread = fp.Thread(counter_first_mutex, shared_object)
+
+    first_thread.join()
+    second_thread.join()
+
     print(shared_object.array)
