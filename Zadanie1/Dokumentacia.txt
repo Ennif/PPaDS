@@ -6,3 +6,15 @@ counter_first_mutex()
 	ešte pred tým ako prvé vlákno dosiahlo zvýšenie hodnoty na indexe. Tým pádom moje pole dosiahlo out of range
 	a program padol na exception alebo som mohol preskočiť index v poli.
 """
+
+
+counter_second_mutex()
+"""
+        Druhé rozloženie zámkov som zvolil pred kontrolovaním podmienky a na konci funkcie. Úvaha bola taká,
+        že keď locknem celý proces inkrementácie, tým pádom druhé vlákno nebude mať k nemu pristup a
+        nenarobí mi tam šarapatu. Výsledok tohto programu mi spôsobil deadlock. Po analýze,
+        som dospel k tomu, že vlastne sa mi ani jedno vlákno neunlockne, pretože prvé vlákno,
+        ktoré vošlo do podmienky vyšlo z while cyklu a nechalo ten proces uzamknutý.
+        Druhé vlákno čaká na začiatku while cyklu na odomknutie, ale nedočka sa,
+        pretože prvé vlákno je už mimo while cyklu a funkcie counter_first_mutex().
+"""
