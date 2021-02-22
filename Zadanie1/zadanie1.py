@@ -29,13 +29,23 @@ def counter_first_mutex(shared):
         shared.array[shared.counter] += 1
 
 
-for _ in range(10):
-    shared_object = Shared(10000)
+def counter_second_mutex(shared):
+    while True:
+        shared.mutex.lock()
+        if shared.counter >= shared.end:
+            break
+        shared.array[shared.counter] += 1
+        shared.counter += 1
+        shared.mutex.unlock()
 
-    first_thread = fp.Thread(counter_first_mutex, shared_object)
-    second_thread = fp.Thread(counter_first_mutex, shared_object)
+
+for _ in range(10):
+    shared_object = Shared(100000)
+
+    first_thread = fp.Thread(counter_second_mutex, shared_object)
+    second_thread = fp.Thread(counter_second_mutex, shared_object)
 
     first_thread.join()
     second_thread.join()
 
-    print(shared_object.array)
+    print(Histogram(shared_object.array))
