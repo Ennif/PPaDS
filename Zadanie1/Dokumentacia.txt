@@ -18,3 +18,14 @@ counter_second_mutex()
         Druhé vlákno čaká na začiatku while cyklu na odomknutie, ale nedočka sa,
         pretože prvé vlákno je už mimo while cyklu a funkcie counter_first_mutex().
 """
+
+
+counter_third_mutex()
+"""
+	Pre tretie rozloženie zámkov som vychádzal z druhého rozloženia, kde som dostal deadlock.
+	Úvaha bola taká, že keď jedno vlákno skončí v podmienke if, unlockne a vyjde z while
+	cyklu, druhé vlákno bude mať možnosť vstúpiť do while cyklu. Keďže podmienka bola
+	splnená už pri prvom vlákne, tak druhé vlákno mohlo vôjsť do podmienky if a výjsť z nekonečného
+	cyklu. Tým pádom sa oba vlákna vedeli spojiť a nenastal deadlock.
+	Pri výpise som dostal také výsledky aké sa očakávali.
+"""
