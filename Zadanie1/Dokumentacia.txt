@@ -1,0 +1,8 @@
+counter_first_mutex()
+"""
+	Prvé rozloženie zámkov som si zvolil pred inkrementovaním countera a za inkrementovaním countera.
+	Úvaha bola taká, že mi druhé vlákno nebude zasahovať do inkrementovania countera a tým pádom prejdem
+	všetky indexy poľa. Po spustení programu som ale zistil, že druhé vlákno môže inkerementovať counter
+	ešte pred tým ako prvé vlákno dosiahlo zvýšenie hodnoty na indexe. Tým pádom moje pole dosiahlo out of range
+	a program padol na exception alebo som mohol preskočiť index v poli.
+"""
