@@ -39,11 +39,22 @@ def counter_second_mutex(shared):
         shared.mutex.unlock()
 
 
-for _ in range(10):
-    shared_object = Shared(100000)
+def counter_third_mutex(shared):
+    while True:
+        shared.mutex.lock()
+        if shared.counter >= shared.end:
+            shared.mutex.unlock()
+            break
+        shared.array[shared.counter] += 1
+        shared.counter += 1
+        shared.mutex.unlock()
 
-    first_thread = fp.Thread(counter_second_mutex, shared_object)
-    second_thread = fp.Thread(counter_second_mutex, shared_object)
+
+for _ in range(10):
+    shared_object = Shared(1_000_000)
+
+    first_thread = fp.Thread(counter_third_mutex, shared_object)
+    second_thread = fp.Thread(counter_third_mutex, shared_object)
 
     first_thread.join()
     second_thread.join()
