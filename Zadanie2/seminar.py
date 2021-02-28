@@ -9,7 +9,7 @@ class SimpleBarrier:
     def __init__(self, numberOfThreads):
         self.numberOfThreads = numberOfThreads
         self.mutex = Mutex()
-        self.turnstile = Semaphore(0)
+        self.event = Event()
         self.counter = 0
 
     def wait(self):
@@ -17,21 +17,17 @@ class SimpleBarrier:
         self.counter += 1
 
         if self.counter == self.numberOfThreads:
-            self.turnstile.signal()
+            self.event.signal()
 
         self.mutex.unlock()
-        self.turnstile.wait()
-        self.turnstile.signal()
-        
-
+        self.event.wait()
 
 
 def barrier_example(barrier, thread_id):
-    sleep(rand(1,10)/10)
+    sleep(rand(1, 10)/10)
     print("vlakno %d pred barierou" % thread_id)
     barrier.wait()
     print("vlanko %d po bariere" % thread_id)
-
 
 
 numberOfThreads = 5
@@ -44,8 +40,3 @@ for i in range(numberOfThreads):
 
 for t in threads:
     t.join()
-
-
-
-
-
