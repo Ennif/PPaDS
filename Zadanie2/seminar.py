@@ -9,7 +9,7 @@ class SimpleBarrier:
     def __init__(self, numberOfThreads):
         self.numberOfThreads = numberOfThreads
         self.mutex = Mutex()
-        self.semaphore = Semaphore(0)
+        self.turnstile = Semaphore(0)
         self.counter = 0
 
     def wait(self):
@@ -17,10 +17,11 @@ class SimpleBarrier:
         self.counter += 1
 
         if self.counter == self.numberOfThreads:
-            self.semaphore.signal(self.numberOfThreads)
+            self.turnstile.signal()
 
         self.mutex.unlock()
-        self.semaphore.wait()
+        self.turnstile.wait()
+        self.turnstile.signal()
         
 
 
