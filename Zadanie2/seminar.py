@@ -9,19 +9,21 @@ class ReusableBarrier:
     def __init__(self, numberOfThreads):
         self.numberOfThreads = numberOfThreads
         self.mutex = Mutex()
-        self.semaphore = Semaphore(0)
+        self.event = Event()
         self.counter = 0
 
     def wait(self):
         self.mutex.lock()
+        if self.counter == 0:
+            self.event.clear()
         self.counter += 1
 
         if self.counter == self.numberOfThreads:
-            self.semaphore.signal(self.numberOfThreads)
+            self.event.signal()
             self.counter = 0
 
         self.mutex.unlock()
-        self.semaphore.wait()
+        self.event.wait()
 
 
 def rendezvous(thread_id):
@@ -36,14 +38,13 @@ def ko(thread_id):
 
 def barrier_example(barrier, thread_id):
     while True:
-
-        barrier.wait()
         rendezvous(thread_id)
         barrier.wait()
         ko(thread_id)
+        barrier.wait()
 
 
-numberOfThreads = 5
+numberOfThreads = 10
 sb = ReusableBarrier(numberOfThreads)
 
 threads = list()
