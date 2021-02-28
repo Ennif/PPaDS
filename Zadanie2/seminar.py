@@ -5,11 +5,11 @@ from time import sleep
 from fei.ppds import print
 
 
-class SimpleBarrier:
+class ReusableBarrier:
     def __init__(self, numberOfThreads):
         self.numberOfThreads = numberOfThreads
         self.mutex = Mutex()
-        self.event = Event()
+        self.semaphore = Semaphore(0)
         self.counter = 0
 
     def wait(self):
@@ -17,21 +17,34 @@ class SimpleBarrier:
         self.counter += 1
 
         if self.counter == self.numberOfThreads:
-            self.event.signal()
+            self.semaphore.signal(self.numberOfThreads)
+            self.counter = 0
 
         self.mutex.unlock()
-        self.event.wait()
+        self.semaphore.wait()
+
+
+def rendezvous(thread_id):
+    sleep(rand(1, 10)/10)
+    print('rendezvous: Vlakno %d' % thread_id)
+
+
+def ko(thread_id):
+    print('ko: Vlanko %d' % thread_id)
+    sleep(rand(1, 10)/10)
 
 
 def barrier_example(barrier, thread_id):
-    sleep(rand(1, 10)/10)
-    print("vlakno %d pred barierou" % thread_id)
-    barrier.wait()
-    print("vlanko %d po bariere" % thread_id)
+    while True:
+
+        barrier.wait()
+        rendezvous(thread_id)
+        barrier.wait()
+        ko(thread_id)
 
 
 numberOfThreads = 5
-sb = SimpleBarrier(numberOfThreads)
+sb = ReusableBarrier(numberOfThreads)
 
 threads = list()
 for i in range(numberOfThreads):
