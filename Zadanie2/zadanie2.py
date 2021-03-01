@@ -20,6 +20,15 @@ class Fibannoci:
         return (self.fibannociList[self.actualPosition - 1] +
                 self.fibannociList[self.actualPosition - 2])
 
+    def fibannoci_counter_semaphore(self, thread_id):
+        self.semaphoreList[thread_id].wait()
+
+        self.actualPosition += 1
+        self.fibannociList.append(self.count_two_fibannoci_numbers())
+
+        if thread_id < self.numberOfThreads-1:
+            self.semaphoreList[self.actualPosition-1].signal()
+
 
 def start(f, thread_id):
 
