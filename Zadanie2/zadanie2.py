@@ -12,6 +12,10 @@ class Fibannoci:
         self.fibannociList = [0, 1]
         self.semaphoreList = []
 
+        for _ in range(numberOfThreads):
+            self.semaphoreList.append(Semaphore(0))
+        self.semaphoreList[0].signal()
+
 
 def start(f, thread_id):
 
