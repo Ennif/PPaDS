@@ -1,0 +1,12 @@
+1) Aký je najmenší počet synchronizačných objektov (semafory, mutexy, udalosti) potrebných na riešenie tejto úlohy?
+
+    Podľa mňa najmenší počet synchronizačných objektov potrebných na riešenie tejto úlohy je "n". V tomto zadaní je
+    nutné aby každé vlákno malo pridelený vlastný synchronizačný objekt a s ním pracovalo.
+
+2) Ktoré z prebratých synchronizačných vzorov (vzájomné vylúčenie, signalizácia, rendezvous, bariéra) sa dajú (rozumne)
+   využiť pri riešení tejto úlohy?
+
+    V mojom riešení som použil signalizáciu. Funguje to tak, že každé vlákno má pridelený vlastný semafor. Vždy prvé
+    vlákno ma inicializovaný semafór na 1 aby mohlo počítať fibanočiho číslo. Ostatné vlákna majú hodnoty semaforu
+    nastavené na hodnotu 0 (nemôžu počítať fibanočiho číslo, lebo čakajú na wait()). Akonáhle i-te vlákno dokončí
+    svoj výpočet nastaví i+1-mu vláknu semafor na 1 a to môže potom počítať svoje fibanočiho číslo.
