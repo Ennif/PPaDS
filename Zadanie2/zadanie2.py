@@ -16,6 +16,10 @@ class Fibannoci:
             self.semaphoreList.append(Semaphore(0))
         self.semaphoreList[0].signal()
 
+    def count_two_fibannoci_numbers(self):
+        return (self.fibannociList[self.actualPosition - 1] +
+                self.fibannociList[self.actualPosition - 2])
+
 
 def start(f, thread_id):
 
