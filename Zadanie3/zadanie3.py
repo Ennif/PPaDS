@@ -25,6 +25,11 @@ class Lightswitch:
         self.mutex.unlock()
 
 
+class Shared:
+    def __init__(self):
+        self.semaphore = Semaphore(1)
+
+
 def read(lightswitch, shared):
     while True:
         sleep(randint(1, 10)/10)
@@ -33,9 +38,13 @@ def read(lightswitch, shared):
         lightswitch.unlock(shared.semaphore)
 
 
-class Shared:
-    def __init__(self):
-        self.semaphore = Semaphore(1)
+def write(shared):
+    while True:
+        sleep(randint(1, 10)/10)
+        shared.semaphore.wait()
+        sleep(randint(1, 10)/10)
+        shared.semaphore.signal()
+        print("vpisovanie3")
 
 
 ls = Lightswitch()
