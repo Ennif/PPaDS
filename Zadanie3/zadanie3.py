@@ -4,7 +4,7 @@ from time import sleep
 from random import randint
 
 
-#Global variables
+# Global variables
 numberOfReaders = 1
 numberOfWriters = 100
 timeForRead = 10
