@@ -8,20 +8,19 @@ class Lightswitch:
     def __init__(self):
         self.counter = 0
         self.mutex = Mutex()
-        self.semaphore = Semaphore(1)
 
-    def lock(self):
+    def lock(self, semaphore):
         self.mutex.lock()
         self.counter += 1
         if self.counter == 1:
-            self.semaphore.wait()
+            semaphore.wait()
         self.mutex.unlock()
 
-    def unlock(self):
+    def unlock(self, semaphore):
         self.mutex.lock()
         self.counter -= 1
         if self.counter == 0:
-            self.semaphore.signal()
+            semaphore.signal()
         self.mutex.unlock()
 
 
