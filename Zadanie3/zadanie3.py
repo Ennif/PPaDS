@@ -1,6 +1,7 @@
 import fei.ppds as fp
-from fei.ppds import Mutex
-from fei.ppds import Semaphore
+from fei.ppds import Mutex, Semaphore, print
+from time import sleep
+from random import randint
 
 
 class Lightswitch:
@@ -22,6 +23,14 @@ class Lightswitch:
         if self.counter == 0:
             self.semaphore.signal()
         self.mutex.unlock()
+
+
+def read(lightswitch, shared):
+    while True:
+        sleep(randint(1, 10)/10)
+        lightswitch.lock(shared.semaphore)
+        sleep(randint(1, 10)/10)
+        lightswitch.unlock(shared.semaphore)
 
 
 class Shared:
