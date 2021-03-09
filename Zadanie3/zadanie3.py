@@ -35,7 +35,9 @@ def read(lightswitch, shared):
         sleep(randint(1, 10)/10)
         shared.turniket.wait()
         shared.turniket.signal()
+        print("citanie1")
         lightswitch.lock(shared.semaphore)
+        print("citanie2")
         sleep(randint(1, 10)/10)
         lightswitch.unlock(shared.semaphore)
         print("citanie3")
@@ -44,8 +46,10 @@ def read(lightswitch, shared):
 def write(shared):
     while True:
         sleep(randint(1, 10)/10)
+        print("vpisovanie1")
         shared.semaphore.wait()
         shared.turniket.wait()
+        print("vypisovanie2")
         sleep(randint(1, 10)/10)
         shared.turniket.signal()
         shared.semaphore.signal()
