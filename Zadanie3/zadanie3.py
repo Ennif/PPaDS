@@ -24,4 +24,10 @@ class Lightswitch:
         self.mutex.unlock()
 
 
+class Shared:
+    def __init__(self):
+        self.semaphore = Semaphore(1)
+
+
 ls = Lightswitch()
+shared = Shared()
