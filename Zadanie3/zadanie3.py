@@ -1,5 +1,5 @@
 import fei.ppds as fp
-from fei.ppds import Mutex, Semaphore, print
+from fei.ppds import Mutex, Semaphore, print, Thread
 from time import sleep
 from random import randint
 
@@ -49,3 +49,16 @@ def write(shared):
 
 ls = Lightswitch()
 shared = Shared()
+
+threads = []
+
+for i in range(9):
+    t = Thread(read,ls,shared)
+    threads.append(t)
+
+for i in range(1):
+    t = Thread(write,shared)
+    threads.append(t)
+
+for t in threads:
+    t.join()
