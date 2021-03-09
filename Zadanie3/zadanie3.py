@@ -27,21 +27,27 @@ class Lightswitch:
 class Shared:
     def __init__(self):
         self.semaphore = Semaphore(1)
+        self.turniket = Semaphore(1)
 
 
 def read(lightswitch, shared):
     while True:
         sleep(randint(1, 10)/10)
+        shared.turniket.wait()
+        shared.turniket.signal()
         lightswitch.lock(shared.semaphore)
         sleep(randint(1, 10)/10)
         lightswitch.unlock(shared.semaphore)
+        print("citanie3")
 
 
 def write(shared):
     while True:
         sleep(randint(1, 10)/10)
         shared.semaphore.wait()
+        shared.turniket.wait()
         sleep(randint(1, 10)/10)
+        shared.turniket.signal()
         shared.semaphore.signal()
         print("vpisovanie3")
 
@@ -51,12 +57,12 @@ shared = Shared()
 
 threads = []
 
-for i in range(9):
-    t = Thread(read,ls,shared)
+for i in range(4):
+    t = Thread(read, ls, shared)
     threads.append(t)
 
 for i in range(1):
-    t = Thread(write,shared)
+    t = Thread(write, shared)
     threads.append(t)
 
 for t in threads:
