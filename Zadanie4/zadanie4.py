@@ -90,3 +90,18 @@ class PowerStation:
             self.written_data_by_sensors,
             self.without_sensors,
             self.without_operators)
+
+
+threads = []
+power_station = PowerStation()
+
+threads.append(Thread(power_station.sensor.sensor_H,0))
+threads.append(Thread(power_station.sensor.sensor_P_T,1))
+threads.append(Thread(power_station.sensor.sensor_P_T,2))
+
+for i in range(8):
+    t = Thread(power_station.operator.operator,i)
+    threads.append(t)
+
+for t in threads:
+    t.join()
