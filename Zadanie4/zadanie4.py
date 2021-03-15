@@ -46,8 +46,8 @@ class Operator:
             self.without_operators.signal()
             waiting_time_of_operator = randint(4, 5)/100
             print(
-                'monit "d": pocet_citajucich_monitorov=d,'
-                "trvanie_citania=%0.3f\n"
+                'monit "%03d": pocet_citajucich_monitorov=%03d,'
+                'trvanie_citania=%0.3f\n'
                 % (operator_id, num_reading_ops, waiting_time_of_operator)
             )
             sleep(waiting_time_of_operator)
@@ -75,7 +75,7 @@ class Sensor:
             self.without_sensors.wait()
             waiting_time_of_sensor = randint(1, 2)/100
             print(
-                'cidlo "d": pocet_zapisujucich_cidiel=d,'
+                'cidlo "%03d": pocet_zapisujucich_cidiel=%03d,'
                 "trvanie_zapisu=%0.3f\n"
                 % (sensor_id, num_writing_sens, waiting_time_of_sensor)
             )
@@ -91,7 +91,7 @@ class Sensor:
             self.without_sensors.wait()
             waiting_time_of_sensor = randint(20, 25)/1000
             print(
-                'cidlo "d": pocet_zapisujucich_cidiel=d,'
+                'cidlo "%03d": pocet_zapisujucich_cidiel=%03d,'
                 "trvanie_zapisu=%0.3f\n"
                 % (sensor_id, num_writing_sens, waiting_time_of_sensor)
             )
