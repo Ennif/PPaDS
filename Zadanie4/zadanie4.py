@@ -24,3 +24,11 @@ class Lightswitch:
         if self.counter == 0:
             semaphore.signal()
         self.mutex.unlock()
+
+
+class Operator:
+    def __init__(self):
+        pass
+
+    def operator(self,operator_id):
+        pass
