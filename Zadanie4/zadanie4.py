@@ -32,3 +32,14 @@ class Operator:
 
     def operator(self,operator_id):
         pass
+
+
+class Sensor:
+    def __init__(self):
+        pass
+
+    def sensor_P_T(self,sensor_id):
+        pass
+
+    def sensor_H(self, sensor_id):
+        pass
