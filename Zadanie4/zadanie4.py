@@ -44,11 +44,22 @@ class Operator:
 
 
 class Sensor:
-    def __init__(self):
-        pass
+    def __init__(self,ls_sensors,w_data_by_sens,without_sensors,without_operators):
+        self.lightswitch_sensors = ls_sensors
+        self.written_data_by_sensors = w_data_by_sens
+        self.without_sensors = without_sensors
+        self.without_operators = without_operators
 
     def sensor_P_T(self,sensor_id):
-        pass
+        while True:
+            sleep(randint(5,6)/100)
+            number_writing_sensors = self.lightswitch_sensors.lock(self.without_operators)
+            self.without_sensors.wait()
+            waiting_time_of_sensor = randint(1, 2)/100
+            print('cidlo "%02d": pocet_zapisujucich_cidiel=%02d, trvanie_zapisu=%0.3f\n' % (sensor_id,number_writing_sensors,waiting_time_of_sensor))
+            sleep(waiting_time_of_sensor)
+            self.without_sensors.signal()
+            self.lightswitch_sensors.unlock(self.without_operators)
 
     def sensor_H(self, sensor_id):
         pass
