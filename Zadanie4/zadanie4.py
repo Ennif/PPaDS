@@ -27,13 +27,15 @@ class Lightswitch:
 
 
 class Operator:
-    def __init__(self,ls_operators,without_operators,without_sensors):
+    def __init__(self,ls_operators,without_operators,without_sensors,simple_barrier):
         self.lightswitch_operators = ls_operators
         self.without_operators = without_operators
         self.without_sensors = without_sensors
+        self.simple_barrier = simple_barrier
 
     def operator(self,operator_id):
         while True:
+            self.simple_barrier.wait()
             self.without_operators.wait()
             number_reading_operators = self.lightswitch_operators.lock(self.without_sensors)
             self.without_operators.signal()
@@ -44,11 +46,12 @@ class Operator:
 
 
 class Sensor:
-    def __init__(self,ls_sensors,w_data_by_sens,without_sensors,without_operators):
+    def __init__(self,ls_sensors,w_data_by_sens,without_sensors,without_operators,simple_barrier):
         self.lightswitch_sensors = ls_sensors
         self.written_data_by_sensors = w_data_by_sens
         self.without_sensors = without_sensors
         self.without_operators = without_operators
+        self.simple_barrier = simple_barrier
 
     def sensor_P_T(self,sensor_id):
         while True:
@@ -59,6 +62,7 @@ class Sensor:
             print('cidlo "%02d": pocet_zapisujucich_cidiel=%02d, trvanie_zapisu=%0.3f\n' % (sensor_id,number_writing_sensors,waiting_time_of_sensor))
             sleep(waiting_time_of_sensor)
             self.without_sensors.signal()
+            self.simple_barrier.wait()
             self.lightswitch_sensors.unlock(self.without_operators)
 
     def sensor_H(self, sensor_id):
@@ -70,6 +74,7 @@ class Sensor:
             print('cidlo "%02d": pocet_zapisujucich_cidiel=%02d, trvanie_zapisu=%0.3f\n' % (sensor_id,number_writing_sensors,waiting_time_of_sensor))
             sleep(waiting_time_of_sensor)
             self.without_sensors.signal()
+            self.simple_barrier.wait()
             self.lightswitch_sensors.unlock(self.without_operators)
 
 
@@ -80,16 +85,35 @@ class PowerStation:
         self.written_data_by_sensors = Event()
         self.without_operators = Semaphore(1)
         self.without_sensors = Semaphore(1)
+        self.simple_barrier = SimpleBarrier(3)
         self.operator = Operator(
             self.lightswitch_operators,
             self.without_operators,
-            self.without_sensors
+            self.without_sensors,
+            self.simple_barrier
             )
         self.sensor = Sensor(
             self.lightswitch_sensors,
             self.written_data_by_sensors,
             self.without_sensors,
-            self.without_operators)
+            self.without_operators,
+            self.simple_barrier)
+
+
+class SimpleBarrier:
+    def __init__(self, number_of_threads):
+        self.number_of_threads = number_of_threads
+        self.mutex = Mutex()
+        self.event = Event()
+        self.counter = 0
+
+    def wait(self):
+        self.mutex.lock()
+        self.counter += 1
+        if self.counter == self.number_of_threads:
+            self.event.signal()
+        self.mutex.unlock()
+        self.event.wait()
 
 
 threads = []
