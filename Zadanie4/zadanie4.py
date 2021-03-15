@@ -43,3 +43,8 @@ class Sensor:
 
     def sensor_H(self, sensor_id):
         pass
+
+
+class PowerStation:
+    def __init__(self):
+        pass
