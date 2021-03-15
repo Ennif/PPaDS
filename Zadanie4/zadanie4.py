@@ -27,11 +27,20 @@ class Lightswitch:
 
 
 class Operator:
-    def __init__(self):
-        pass
+    def __init__(self,ls_operators,without_operators,without_sensors,simple_barrier):
+        self.lightswitch_operators = ls_operators
+        self.without_operators = without_operators
+        self.without_sensors = without_sensors
 
     def operator(self,operator_id):
-        pass
+        while True:
+            self.without_operators.wait()
+            number_reading_operators = self.lightswitch_operators.lock(self.without_sensors)
+            self.without_operators.signal()
+            waiting_time_of_operator = randint(4, 5)/100
+            print('monit "%02d": pocet_citajucich_monitorov=%02d, trvanie_citania=%0.3f\n' % (operator_id,number_reading_operators,waiting_time_of_operator))
+            sleep(waiting_time_of_operator)
+            self.lightswitch_operators.unlock(self.without_sensors)
 
 
 class Sensor:
