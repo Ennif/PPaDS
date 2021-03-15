@@ -73,6 +73,7 @@ class Sensor:
             sleep(randint(5, 6)/100)
             num_writing_sens = self.ls_sens.lock(self.without_operators)
             self.without_sensors.wait()
+            self.without_sensors.signal()
             waiting_time_of_sensor = randint(1, 2)/100
             print(
                 'cidlo "%03d": pocet_zapisujucich_cidiel=%03d,'
@@ -80,7 +81,6 @@ class Sensor:
                 % (sensor_id, num_writing_sens, waiting_time_of_sensor)
             )
             sleep(waiting_time_of_sensor)
-            self.without_sensors.signal()
             self.simple_barrier.wait()
             self.ls_sens.unlock(self.without_operators)
 
@@ -89,6 +89,7 @@ class Sensor:
             sleep(randint(5, 6)/100)
             num_writing_sens = self.ls_sens.lock(self.without_operators)
             self.without_sensors.wait()
+            self.without_sensors.signal()
             waiting_time_of_sensor = randint(20, 25)/1000
             print(
                 'cidlo "%03d": pocet_zapisujucich_cidiel=%03d,'
@@ -96,7 +97,6 @@ class Sensor:
                 % (sensor_id, num_writing_sens, waiting_time_of_sensor)
             )
             sleep(waiting_time_of_sensor)
-            self.without_sensors.signal()
             self.simple_barrier.wait()
             self.ls_sens.unlock(self.without_operators)
 
