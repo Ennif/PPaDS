@@ -27,7 +27,7 @@ class Lightswitch:
 
 
 class Operator:
-    def __init__(self,ls_operators,without_operators,without_sensors,simple_barrier):
+    def __init__(self,ls_operators,without_operators,without_sensors):
         self.lightswitch_operators = ls_operators
         self.without_operators = without_operators
         self.without_sensors = without_sensors
@@ -72,6 +72,21 @@ class Sensor:
             self.without_sensors.signal()
             self.lightswitch_sensors.unlock(self.without_operators)
 
+
 class PowerStation:
     def __init__(self):
-        pass
+        self.lightswitch_sensors = Lightswitch()
+        self.lightswitch_operators = Lightswitch()
+        self.written_data_by_sensors = Event()
+        self.without_operators = Semaphore(1)
+        self.without_sensors = Semaphore(1)
+        self.operator = Operator(
+            self.lightswitch_operators,
+            self.without_operators,
+            self.without_sensors
+            )
+        self.sensor = Sensor(
+            self.lightswitch_sensors,
+            self.written_data_by_sensors,
+            self.without_sensors,
+            self.without_operators)
