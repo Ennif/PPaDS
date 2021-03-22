@@ -27,3 +27,15 @@ class SimpleBarrier:
             self.sem.signal(self.N)
         self.mutex.unlock()
         self.sem.wait()
+
+
+class Shared:
+
+    def __init__(self):
+        self.mutex = Mutex()
+        self.mutex2 = Mutex()
+        self.servings = 0
+        self.full_pot = Semaphore(0)
+        self.empty_pot = Semaphore(0)
+        self.barrier1 = SimpleBarrier(5)
+        self.barrier2 = SimpleBarrier(5)
