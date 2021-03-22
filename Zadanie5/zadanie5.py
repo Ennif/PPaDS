@@ -43,3 +43,8 @@ class Shared:
         self.empty_pot = Semaphore(0)
         self.barrier1 = SimpleBarrier(number_of_savages)
         self.barrier2 = SimpleBarrier(number_of_savages)
+
+
+def get_serving_from_pot(savage_id, shared):
+    print("divoch %2d: beriem si porciu" % savage_id)
+    shared.servings -= 1
