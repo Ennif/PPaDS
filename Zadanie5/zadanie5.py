@@ -75,3 +75,15 @@ def savage(savage_id, shared):
         shared.mutex.unlock()
 
         eat(savage_id)
+
+
+def put_serving_in_pot(servings, shared, cook_id):
+
+    print("kuchar %2d: varim" % cook_id)
+    sleep(0.4 + randint(0, 2) / 10)
+    shared.mutex2.lock()
+    shared.servings += 1
+    if shared.servings == servings:
+            print("kuchar %2d hrniec je plny" % cook_id)
+            shared.full_pot.signal()
+    shared.mutex2.unlock()
