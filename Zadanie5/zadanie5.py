@@ -53,3 +53,25 @@ def get_serving_from_pot(savage_id, shared):
 def eat(savage_id):
     print("divoch %2d: hodujem" % savage_id)
     sleep(0.2 + randint(0, 3) / 10)
+
+
+def savage(savage_id, shared):
+    while True:
+        shared.barrier1.wait(
+            "divoch %2d: prisiel som na veceru, uz nas je %2d",
+            savage_id,
+            print_each_thread=True)
+        shared.barrier2.wait("divoch %2d: uz sme vsetci, zaciname vecerat",
+                             savage_id,
+                             print_last_thread=True)
+        shared.mutex.lock()
+        print("divoch %2d: pocet zostavajucich porcii v hrnci je %2d" %
+              (savage_id, shared.servings))
+        if shared.servings == 0:
+            print("divoch %2d: budim kuchara" % savage_id)
+            shared.empty_pot.signal(max_servings)
+            shared.full_pot.wait()
+        get_serving_from_pot(savage_id, shared)
+        shared.mutex.unlock()
+
+        eat(savage_id)
