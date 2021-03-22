@@ -48,3 +48,8 @@ class Shared:
 def get_serving_from_pot(savage_id, shared):
     print("divoch %2d: beriem si porciu" % savage_id)
     shared.servings -= 1
+
+
+def eat(savage_id):
+    print("divoch %2d: hodujem" % savage_id)
+    sleep(0.2 + randint(0, 3) / 10)
