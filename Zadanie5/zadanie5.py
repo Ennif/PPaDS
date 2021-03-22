@@ -87,3 +87,10 @@ def put_serving_in_pot(servings, shared, cook_id):
             print("kuchar %2d hrniec je plny" % cook_id)
             shared.full_pot.signal()
     shared.mutex2.unlock()
+
+
+def cook(servings, shared, cook_id):
+
+    while True:
+        shared.empty_pot.wait()
+        put_serving_in_pot(servings, shared, cook_id)
