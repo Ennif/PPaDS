@@ -2,6 +2,10 @@ from fei.ppds import Semaphore, Mutex, Thread, print
 from random import randint
 from time import sleep
 
+max_servings = 5
+number_of_savages = 3
+number_of_cook = 3
+
 
 class SimpleBarrier:
 
@@ -37,5 +41,5 @@ class Shared:
         self.servings = 0
         self.full_pot = Semaphore(0)
         self.empty_pot = Semaphore(0)
-        self.barrier1 = SimpleBarrier(5)
-        self.barrier2 = SimpleBarrier(5)
+        self.barrier1 = SimpleBarrier(number_of_savages)
+        self.barrier2 = SimpleBarrier(number_of_savages)
