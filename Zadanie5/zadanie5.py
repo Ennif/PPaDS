@@ -94,3 +94,20 @@ def cook(servings, shared, cook_id):
     while True:
         shared.empty_pot.wait()
         put_serving_in_pot(servings, shared, cook_id)
+
+
+def init_and_run():
+
+    threads = list()
+    shared = Shared()
+    for savage_id in range(0, number_of_savages):
+        threads.append(Thread(savage, savage_id, shared))
+
+    for cook_id in range(0, number_of_cook):
+        threads.append(Thread(cook, max_servings, shared, cook_id))
+
+    for t in threads:
+        t.join()
+
+if __name__ == "__main__":
+    init_and_run()
