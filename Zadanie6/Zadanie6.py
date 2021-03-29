@@ -70,3 +70,18 @@ class Molecule:
     def bond(self):
         sleep(randint(5, 15)/10)
         print("Zlucenie buniek")
+
+
+def init_and_run():
+
+    threads = list()
+    molecule = Molecule()
+    while True:
+        threads.append(Thread(molecule.oxygenFunc))
+        threads.append(Thread(molecule.hydrogenFunc))
+
+    # for t in threads:
+    #    t.join()
+
+if __name__ == "__main__":
+    init_and_run()
