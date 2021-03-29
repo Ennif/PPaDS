@@ -34,7 +34,21 @@ class Molecule:
         self.barrier = Barrier(3)
 
     def oxygenFunc(self):
-        pass
+            self.mutex.wait()
+            self.oxygen += 1
+            if self.hydrogen < 2:
+                self.mutex.signal()
+            else:
+                self.oxygen -= 1
+                self.hydrogen -= 2
+                self.oxygenQueue.signal()
+                self.hydrogenQueue.signal(2)
+
+            self.oxygenQueue.wait()
+            print("oxygen do zlucenia")
+            self.bond()
+            self.barrier.wait()
+            self.mutex.signal()
 
     def hydrogenFunc(self):
         pass
