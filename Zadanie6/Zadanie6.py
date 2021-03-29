@@ -51,7 +51,21 @@ class Molecule:
             self.mutex.signal()
 
     def hydrogenFunc(self):
-        pass
+        self.mutex.wait()
+        self.hydrogen += 1
+        if self.hydrogen < 2 or self.oxygen < 1:
+            self.mutex.signal()
+        else:
+            self.oxygen -= 1
+            self.hydrogen -= 2
+            self.oxygenQueue.signal()
+            self.hydrogenQueue.signal(2)
+
+        self.hydrogenQueue.wait()
+        print("Hydrogen do zlucenia")
+        self.bond()
+
+        self.barrier.wait()
 
     def bond(self):
         pass
