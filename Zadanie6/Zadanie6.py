@@ -68,4 +68,5 @@ class Molecule:
         self.barrier.wait()
 
     def bond(self):
-        pass
+        sleep(randint(5, 15)/10)
+        print("Zlucenie buniek")
