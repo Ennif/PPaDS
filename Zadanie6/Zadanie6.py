@@ -22,4 +22,22 @@ class Barrier:
             self.semaphore.signal(self.N)
         self.mutex.unlock()
         self.semaphore.wait()
-        
+
+
+class Molecule:
+    def __init__(self):
+        self.mutex = Semaphore(1)
+        self.oxygenQueue = Semaphore(0)
+        self.hydrogenQueue = Semaphore(0)
+        self.oxygen = 0
+        self.hydrogen = 0
+        self.barrier = Barrier(3)
+
+    def oxygenFunc(self):
+        pass
+
+    def hydrogenFunc(self):
+        pass
+
+    def bond(self):
+        pass
