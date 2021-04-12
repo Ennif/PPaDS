@@ -16,6 +16,21 @@ class Task(object):
         return self.coroutine.send(attr)
 
 
+class Scheduler:
+
+    def __init__(self):
+        self.last_coroutine = 0
+        self.array_of_coroutines = []
+        self.number_of_coroutines = 0
+        self.index = 1
+
+    def fill_array(self, coroutine):
+        pass
+
+    def main(self):
+        pass
+
+
 if __name__ == "__main__":
 
     coroutine()
