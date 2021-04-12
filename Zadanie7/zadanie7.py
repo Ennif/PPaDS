@@ -1,3 +1,6 @@
+from random import randint
+
+
 def coroutine():
     while True:
         task_id = (yield)
@@ -30,9 +33,19 @@ class Scheduler:
         self.array_of_coroutines.insert(new_task.task_id, new_task)
 
     def main(self):
-        pass
+        self.number_of_coroutines = Task.id - 1
+        while True:
+            random_position = randint(0, self.number_of_coroutines)
+            if self.last_coroutine == random_position:
+                continue
+            self.last_coroutine = random_position
+            todo = self.array_of_coroutines[random_position]
+            todo.run_task(todo.task_id)
 
 
 if __name__ == "__main__":
+    scheduler = Scheduler()
+    for _ in range(5):
+        scheduler.fill_array(coroutine())
 
-    coroutine()
+    scheduler.main()
