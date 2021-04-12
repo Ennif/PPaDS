@@ -25,7 +25,9 @@ class Scheduler:
         self.index = 1
 
     def fill_array(self, coroutine):
-        pass
+        new_task = Task(coroutine)
+        new_task.run_task(None)
+        self.array_of_coroutines.insert(new_task.task_id, new_task)
 
     def main(self):
         pass
