@@ -8,10 +8,16 @@ async def warm_water_async() -> None:
     print("Water has been heated")
 
 
+async def chopping_vegetables_async() -> None:
+    print("Chopping vegetables")
+    await asyncio.sleep(2)
+    print("Vegetables has been chopped")
+
+
 async def main():
     start_time = time.time()
 
-    await asyncio.gather(warm_water_async())
+    await asyncio.gather(warm_water_async(),chopping_vegetables_async())
 
     print(time.time() - start_time, "seconds passed")
 
