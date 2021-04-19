@@ -8,11 +8,17 @@ def warm_water() -> None:
     print("Water has been heated")
 
 
+def chopping_vegetables() -> None:
+    print("Chopping vegetables")
+    time.sleep(2)
+    print("Vegetables has been chopped")
+
+
 def main():
     start_time = time.time()
 
     warm_water()
-
+    chopping_vegetables()
 
     print(time.time() - start_time, "seconds passed")
 
