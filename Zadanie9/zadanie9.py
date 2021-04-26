@@ -6,4 +6,6 @@ import math
 
 @cuda.jit
 def krn(a,b):
-   pass
+    position = cuda.grid(1)
+    if position < b.size:
+        a[position] *= b[position]
